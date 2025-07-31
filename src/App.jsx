@@ -11,11 +11,16 @@ import { AuthContext } from "./helpers/authContext"
 import Home from "./components/Home"
 
 
+
 function App() {
 
   const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')));
   const [reqUser, setReqUser] = useState({});
   const [loggedin, setLoggedIn] = useState(false);
+
+  console.log(loggedin);
+  console.log(reqUser);
+
 
 
   useEffect(() => {
@@ -38,10 +43,10 @@ function App() {
       }
     }
     fetchCurrentUser();
-  }, [token]);
+  }, [token, loggedin]);
 
   return (
-    <AuthContext.Provider value={{ loggedin, reqUser, setReqUser, setLoggedIn, token }}>
+    <AuthContext.Provider value={{ loggedin, reqUser, setReqUser, setLoggedIn, token, setToken }}>
       <BrowserRouter>
         <Header />
         <Routes>

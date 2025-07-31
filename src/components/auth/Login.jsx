@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Spinner from '../layout/Spinner';
 import { renderValidationErrors } from '../../helpers/validation';
 import { useNavigate } from 'react-router-dom';
@@ -14,12 +14,14 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
 
-  const { loggedin, setReqUser, setLoggedIn } = useContext(AuthContext);
+  const { loggedin, setReqUser, setLoggedIn, setToken } = useContext(AuthContext);
 
 
-  if (loggedin) {
-    navigate('/');
-  }
+  useEffect(() => {
+    if (loggedin) {
+      navigate('/');
+    }
+  }, [loggedin, navigate]);
 
 
   const handleSubmit = async (e) => {
@@ -32,12 +34,15 @@ const Login = () => {
 
     try {
       const response = await axios.post(`${BASE_URL}/login`, data);
-      localStorage.setItem('token', JSON.stringify(response.data.response.token));
+
+      const token = response.data.response.token;
+      localStorage.setItem('token', JSON.stringify(token));
+      
       setLoading(false);
       setEmail("");
       setPassword("");
+      setToken(token);
       setLoggedIn(true);
-      navigate('/');
     } catch (errors) {
       setLoading(false);
       setErrors(errors.response.data.message)

@@ -4,13 +4,15 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../helpers/authContext';
 
 const Home = () => {
-    const { loggedin } = useContext(AuthContext);
+    const { token, loggedin, reqUser, setReqUser, setLoggedIn } = useContext(AuthContext);
+
     const navigate = useNavigate();
+
     useEffect(() => {
-        if (loggedin === false) {
-            navigate('/login');
+        if(loggedin == false){
+            navigate('/login')
         }
-    }, [loggedin, navigate]);
+    },[loggedin])
 
     return <h2>Home Component</h2>
 }
