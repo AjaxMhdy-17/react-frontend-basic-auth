@@ -2,17 +2,20 @@ import React, { useContext, useEffect } from 'react'
 
 import { Navigate, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../helpers/authContext';
+import axios from 'axios';
 
 const Home = () => {
     const { token, loggedin, reqUser, setReqUser, setLoggedIn } = useContext(AuthContext);
-
     const navigate = useNavigate();
-
     useEffect(() => {
-        if(loggedin == false){
-            navigate('/login')
+        if (loggedin == false) navigate('/login');
+        
+        const fetchSectors = async () => {
+            const response = await axios.get(`${BASE_URL}/`)
         }
-    },[loggedin])
+
+
+    }, [loggedin])
 
     return <h2>Home Component</h2>
 }

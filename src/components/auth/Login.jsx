@@ -37,7 +37,7 @@ const Login = () => {
 
       const token = response.data.response.token;
       localStorage.setItem('token', JSON.stringify(token));
-      
+
       setLoading(false);
       setEmail("");
       setPassword("");
@@ -46,6 +46,7 @@ const Login = () => {
     } catch (errors) {
       setLoading(false);
       setErrors(errors.response.data.message)
+      setLoggedIn(false);
     }
   }
 

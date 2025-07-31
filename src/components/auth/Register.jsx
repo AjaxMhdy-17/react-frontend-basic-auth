@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { BASE_URL } from '../../helpers/url';
 import { renderValidationErrors } from '../../helpers/validation';
@@ -9,7 +9,7 @@ import { AuthContext } from '../../helpers/authContext';
 const Register = () => {
 
 
-    const { loggedin, setReqUser, setLoggedIn } = useContext(AuthContext);
+    const { loggedin, setToken, setLoggedIn } = useContext(AuthContext);
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -20,9 +20,15 @@ const Register = () => {
 
 
 
-    if (loggedin) {
-        navigate('/');
-    }
+    useEffect(() => {
+        if (loggedin) {
+            navigate('/');
+        }
+    }, [loggedin]);
+
+    console.log(loggedin);
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -33,18 +39,23 @@ const Register = () => {
         }
         try {
             const response = await axios.post(`${BASE_URL}/register`, data);
-            localStorage.setItem('token', JSON.stringify(response.data.response.token));
+            const token = response.data.response.token;
+
+            localStorage.setItem('token', JSON.stringify(token));
+            setToken(token);
+            setLoggedIn(true);
             setLoading(false);
             setName("");
             setEmail("");
             setPassword("");
-            setLoggedIn(true);
-            navigate('/');
+
         } catch (errors) {
-            setLoading(false);
-            if (errors.response.status) {
+            setLoading(false)
+
+            if (errors.response) {
                 setErrors(errors.response.data.message)
             }
+            setLoggedIn(false);
         }
     }
 
