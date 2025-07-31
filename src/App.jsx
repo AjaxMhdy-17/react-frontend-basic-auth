@@ -18,11 +18,6 @@ function App() {
   const [reqUser, setReqUser] = useState({});
   const [loggedin, setLoggedIn] = useState(false);
 
-  console.log(loggedin);
-  console.log(reqUser);
-
-
-
   useEffect(() => {
     const fetchCurrentUser = async () => {
       if (!token) {
