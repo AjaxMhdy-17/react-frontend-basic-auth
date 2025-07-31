@@ -3,7 +3,7 @@ import Register from "./components/auth/Register"
 import Login from "./components/auth/Login"
 import Profile from "./components/user/Profile"
 import Header from "./components/layout/Header"
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 import { BASE_URL } from "./helpers/url"
 import { getConfig } from "./helpers/config"
@@ -21,7 +21,7 @@ function App() {
   useEffect(() => {
     const fetchCurrentUser = async () => {
       if (!token) {
-        console.log('No token found!');
+        // console.log('No token found!');
         return;
       }
       try {
@@ -41,7 +41,7 @@ function App() {
   }, [token]);
 
   return (
-    <AuthContext.Provider value={{ loggedin, reqUser, setReqUser, setReqUser }}>
+    <AuthContext.Provider value={{ loggedin, reqUser, setReqUser, setLoggedIn, token }}>
       <BrowserRouter>
         <Header />
         <Routes>

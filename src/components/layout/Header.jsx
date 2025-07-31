@@ -1,13 +1,39 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../../helpers/authContext';
+import axios from 'axios';
+import { BASE_URL } from '../../helpers/url';
+import { getConfig } from '../../helpers/config';
 
 const Header = () => {
 
-    const {loggedin} = useContext(AuthContext); 
+    const [token, setToken] = useState(JSON.parse(localStorage.getItem('token')));
+    const { loggedin, setReqUser, setLoggedIn } = useContext(AuthContext);
 
-    console.log(loggedin);
-    
+
+
+
+    const handleLogout = async (e) => {
+        e.preventDefault();
+        try {
+            // setLoggedIn(false)
+            // const response = await axios.post(`${BASE_URL}/logout`, getConfig(token));
+            const response = await axios.post(`${BASE_URL}/logout`, {}, getConfig(token));
+            // console.log(response);
+            localStorage.removeItem('token');
+            setReqUser({});
+            setLoggedIn(false);
+
+        } catch (error) {
+            localStorage.removeItem('token');
+            setReqUser({});
+            setLoggedIn(false);
+            console.log(error);
+
+        }
+
+    }
+
 
 
     return (
@@ -44,7 +70,7 @@ const Header = () => {
                                     <Link className="nav-link" to="/profile">Profile</Link>
                                 </li>
                                 <li className="nav-item">
-                                    <Link className="nav-link" to="/login">Logout</Link>
+                                    <Link onClick={handleLogout} className="nav-link">Logout</Link>
                                 </li>
                             </>) : (
                                 <>

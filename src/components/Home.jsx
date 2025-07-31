@@ -6,8 +6,6 @@ import { AuthContext } from '../helpers/authContext';
 const Home = () => {
     const { loggedin } = useContext(AuthContext);
     const navigate = useNavigate();
-    console.log(loggedin);
-
     useEffect(() => {
         if (loggedin === false) {
             navigate('/login');

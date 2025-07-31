@@ -8,7 +8,8 @@ import { AuthContext } from '../../helpers/authContext';
 
 const Register = () => {
 
-    const { loggedin } = useContext(AuthContext)
+
+    const { loggedin, setReqUser, setLoggedIn } = useContext(AuthContext);
 
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
@@ -37,6 +38,7 @@ const Register = () => {
             setName("");
             setEmail("");
             setPassword("");
+            setLoggedIn(true);
             navigate('/');
         } catch (errors) {
             setLoading(false);

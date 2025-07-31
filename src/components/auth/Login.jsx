@@ -14,7 +14,9 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
 
 
-  const { loggedin } = useContext(AuthContext)
+  const { loggedin, setReqUser, setLoggedIn } = useContext(AuthContext);
+
+
   if (loggedin) {
     navigate('/');
   }
@@ -34,6 +36,7 @@ const Login = () => {
       setLoading(false);
       setEmail("");
       setPassword("");
+      setLoggedIn(true);
       navigate('/');
     } catch (errors) {
       setLoading(false);
